@@ -1,4 +1,4 @@
-import { render } from '@redwoodjs/testing/web'
+import { render, screen } from '@redwoodjs/testing/web'
 
 import Article from './Article'
 
@@ -6,9 +6,16 @@ import Article from './Article'
 //    https://redwoodjs.com/docs/testing#testing-components
 
 describe('Article', () => {
-  it('renders successfully', () => {
-    expect(() => {
-      render(<Article />)
-    }).not.toThrow()
+  it('renders a blog post', () => {
+    const article = {
+      id: 1,
+      title: 'First post',
+      body: 'Hello, World!',
+      createdAt: new Date().toISOString(),
+    }
+    render(<Article article={article} />)
+
+    expect(screen.getByText(article.title)).toBeInTheDocument()
+    expect(screen.getByText(article.body)).toBeInTheDocument()
   })
 })
