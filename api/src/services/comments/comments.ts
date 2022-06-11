@@ -1,4 +1,6 @@
 import { db } from 'src/lib/db'
+import { requireAuth } from 'src/lib/auth'
+
 import type {
   QueryResolvers,
   CommentResolvers,
@@ -26,6 +28,7 @@ export const createComment: MutationResolvers['createComment'] = ({
 }
 
 export const deleteComment: MutationResolvers['deleteComment'] = ({ id }) => {
+  requireAuth({ roles: 'moderator' })
   return db.comment.delete({
     where: { id },
   })
